@@ -1,0 +1,21 @@
+[{
+   "Anna" : {
+      "password" : "101010", 
+      "roles" : "admin"
+  },
+  "adewf" : {
+      "password" : "dsfsd", 
+      "roles" : "admin" 
+  },
+  
+   "Petr" : {
+      "password" : "111111", 
+      "roles" : "admin" 
+  },
+  
+   "Olgha" : {
+      "password" : "123123", 
+      "roles" : "admin" 
+  }
+  
+}]
