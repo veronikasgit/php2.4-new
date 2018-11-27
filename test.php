@@ -1,9 +1,41 @@
 <?php 
-
 include "core/auth.php";
-$filelist = glob('example/*.json');
+// var_dump($_SESSION['login']);
 
-$id = $_GET['key'];
+// if (!isset($_SESSION['login']) || empty($_GET['key'])) {
+// 	http_response_code(403);
+// 	exit('<h1>403 Forbidden</h1><p>Перейти к <a href="index.php">форме авторизации</a></p>');
+// }
+
+
+if (isset($_SESSION['login']) && !empty($_SESSION['login'])) {   
+
+	if (!empty($_GET['key'])) {
+	$id = $_GET['key'];
+	} else {
+		echo "Тест не выбран!";
+		echo '<br>' . '<a href="list.php">Перейти к списку тестов</a>' . '<br>';
+		exit();
+	}
+
+    echo '<h2>' . $_SESSION['login'] . "!" . '</h2>'; 
+
+    if ($_SESSION['login'] === "guest") {
+        echo "Вы вошли как НЕавторизованный пользователь " . '<br>'. '<br>';
+        echo '<br>' . '<a href="list.php">Перейти к списку тестов</a>' . '<br>';
+        echo '<a href="index.php">Вернуться на страницу авторизации</a>' . '<br>'. '<br>';
+    } else {    
+        echo "Вы вошли как авторизованный пользователь" . '<br>' . '<br>';  
+        echo '<a href="admin.php">Загрузить новый тест</a>' . '<br>';
+		echo '<a href="list.php">Перейти к списку тестов</a>' . '<br>';
+		echo '<a href = "core/logout.php">Выйти из учетной записи</a>' . '<br>' . '<br>'  . '<hr>' ;
+    }
+} else {
+    http_response_code(403);
+    exit('<h1>403 Forbidden</h1><p>Перейти к <a href="index.php">форме авторизации</a></p>');
+}
+
+$filelist = glob('example/*.json');
 
 foreach ($filelist as  $key => $filename) {
 	
@@ -19,9 +51,11 @@ foreach ($filelist as  $key => $filename) {
 		exit;
 	}
 }
-echo '<a href="list.php">Перейти к списку тестов</a>' . '<br>';
-echo '<a href = "admin.php">Загрузить новый тест</a>' . '<br>';
-echo '<hr>';
+
+// if (isset($_SESSION['login']) && ($_SESSION['login'] !== "guest")) {            
+//     echo  '<a href = "admin.php">Загрузить новый тест</a>';
+// }
+
 if (isset($_POST['button'])) {
 
 	// if (isset($_SESSION['login']) && ($_SESSION['login'] !== "guest")) {
@@ -48,15 +82,15 @@ if (isset($_POST['button'])) {
 
 	}
 	
-	echo '<br>' . "Правильных ответов - $mark" . '<br>';
+echo '<br>' . "Правильных ответов - $mark" . '<br>';
 
-	echo '<br>' . "<img src='core/img.php?mark=$mark'. />" . '<br>';
+echo '<br>' . "<img src='core/img.php?mark=$mark'. />" . '<br>';
 
-	
 
-	exit;
 
-	}
+exit;
+
+}
 
 ?>
 
